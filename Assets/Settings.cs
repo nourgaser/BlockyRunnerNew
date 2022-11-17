@@ -21,7 +21,7 @@ public class Settings : MonoBehaviour
             instance = this;
 
             QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 144;
+            Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
         DontDestroyOnLoad(this.gameObject);
