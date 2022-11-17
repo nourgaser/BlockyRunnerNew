@@ -15,6 +15,9 @@ public class Controller : MonoBehaviour
     private float jumpForce;
 
     private bool inAir;
+    private bool moveLeft;
+    private bool moveRight;
+    private bool shouldJump;
 
     [SerializeField]
     private float boostTargetSpeed;
@@ -22,31 +25,80 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float slowTargetSpeed;
 
+    private float quarterOfScreen;
 
     private void Start()
     {
+        quarterOfScreen = Screen.width / 4;
         rb = GetComponent<Rigidbody>();
     }
 
+    private void FixedUpdate()
+    {
+        if (moveLeft)
+        {
+            rb.AddForce(-sideForce * Time.fixedDeltaTime, 0, 0);
+        }
+        if (moveRight)
+        {
+            rb.AddForce(sideForce * Time.fixedDeltaTime, 0, 0);
+        }
+        if (shouldJump)
+        {
+            rb.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+            shouldJump = false;
+            inAir = true;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.A) || Input.acceleration.x < -0.1)
+
+        bool left = false, right = false, jump = false;
+
+        // TOUCH
+        if (Input.touchCount > 0)
         {
-            rb.AddForce(new Vector3(-sideForce * Time.deltaTime, 0, 0));
+            Touch[] touches = Input.touches;
+            foreach (Touch touch in touches)
+            {
+                if (touch.position.x > 3 * quarterOfScreen)
+                {
+                    right = true;
+                }
+                else if (touch.position.x < (quarterOfScreen))
+                {
+                    left = true;
+                }
+                if (!inAir && (touch.position.x > quarterOfScreen && touch.position.x < (3 * quarterOfScreen))) jump = true;
+            }
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.acceleration.x > 0.1)
+        // TILT
+        // TODO: implement here
+
+        // KEYBOARD
+        if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(new Vector3(sideForce * Time.deltaTime, 0, 0));
+            left = true;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            right = true;
+        }
+        if (!inAir && (Input.GetKeyDown(KeyCode.Space)))
+        {
+            jump = true;
         }
 
-        if (!inAir && (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0))
-        {
-            inAir = true;
-            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-        }
 
+        if (right) moveRight = true;
+        else moveRight = false;
+
+        if (left) moveLeft = true;
+        else moveLeft = false;
+
+        if (jump) shouldJump = true;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -58,7 +110,7 @@ public class Controller : MonoBehaviour
                 inAir = false;
                 break;
             case "Bouncy":
-                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude, baseBounceForce), ForceMode.Impulse);
+                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude*1.3f, baseBounceForce), ForceMode.Impulse);
                 break;
             case "Boost":
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = boostTargetSpeed;
