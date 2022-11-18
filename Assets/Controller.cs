@@ -110,7 +110,7 @@ public class Controller : MonoBehaviour
                 inAir = false;
                 break;
             case "Bouncy":
-                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude*1.3f, baseBounceForce), ForceMode.Impulse);
+                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.15f, baseBounceForce), ForceMode.Impulse);
                 break;
             case "Boost":
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = boostTargetSpeed;
