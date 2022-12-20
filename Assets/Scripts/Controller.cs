@@ -98,7 +98,11 @@ public class Controller : MonoBehaviour
         if (left) moveLeft = true;
         else moveLeft = false;
 
-        if (jump) shouldJump = true;
+        if (jump)
+        {
+            rb.constraints = RigidbodyConstraints.None;
+            shouldJump = true;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -108,6 +112,7 @@ public class Controller : MonoBehaviour
         {
             case "Floor":
                 inAir = false;
+                rb.constraints = RigidbodyConstraints.FreezePositionY;
                 break;
             case "Bouncy":
                 rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.15f, baseBounceForce), ForceMode.Impulse);
