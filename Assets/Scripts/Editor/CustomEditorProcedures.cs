@@ -27,62 +27,73 @@ public class CustomEditorProcedures
     [MenuItem("Custom/Block Movement/Left _^LEFT")]
     private static void Left()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if ((selected.position.x - (selected.localScale.x / 2)) - step >= leftBoundary)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x - step, selected.position.y, selected.position.z);
+            RoundTransform(selected);
+            if ((selected.position.x - (selected.localScale.x / 2)) - step >= leftBoundary)
+            {
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x - step, selected.position.y, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Movement/Right _^RIGHT")]
     private static void Right()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if ((selected.position.x + (selected.localScale.x / 2)) + step <= rightBoundary)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x + step, selected.position.y, selected.position.z);
+            RoundTransform(selected);
+            if ((selected.position.x + (selected.localScale.x / 2)) + step <= rightBoundary)
+            {
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x + step, selected.position.y, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Movement/Forward _^#UP")]
     private static void Forward()
     {
-
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        Undo.RecordObject(selected, "Movement");
-        selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z + step);
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
+        {
+            RoundTransform(selected);
+            Undo.RecordObject(selected, "Movement");
+            selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z + step);
+        }
     }
     [MenuItem("Custom/Block Movement/Back _^#DOWN")]
     private static void Back()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        Undo.RecordObject(selected, "Movement");
-        selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z - step);
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
+        {
+            RoundTransform(selected);
+            Undo.RecordObject(selected, "Movement");
+            selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z - step);
+        }
     }
     [MenuItem("Custom/Block Movement/Up _^UP")]
     private static void Up()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if ((selected.position.y + (selected.localScale.y / 2)) + step <= upBoundary)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x, selected.position.y + step, selected.position.z);
+            RoundTransform(selected);
+            if ((selected.position.y + (selected.localScale.y / 2)) + step <= upBoundary)
+            {
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x, selected.position.y + step, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Movement/Down _^DOWN")]
     private static void Down()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if ((selected.position.y - (selected.localScale.y / 2)) - step >= downBoundary)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x, selected.position.y - step, selected.position.z);
+            RoundTransform(selected);
+            if ((selected.position.y - (selected.localScale.y / 2)) - step >= downBoundary)
+            {
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x, selected.position.y - step, selected.position.z);
+            }
         }
     }
 
@@ -93,77 +104,89 @@ public class CustomEditorProcedures
     [MenuItem("Custom/Block Scale/Right _^L")]
     private static void ScaleRight()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if (((selected.position.x + (selected.localScale.x / 2)) + scaleStep <= rightBoundary))
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Scale");
-            selected.localScale = new Vector3(selected.localScale.x + scaleStep, selected.localScale.y, selected.localScale.z);
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x + scaleStep / 2, selected.position.y, selected.position.z);
+            RoundTransform(selected);
+            if (((selected.position.x + (selected.localScale.x / 2)) + scaleStep <= rightBoundary))
+            {
+                Undo.RecordObject(selected, "Scale");
+                selected.localScale = new Vector3(selected.localScale.x + scaleStep, selected.localScale.y, selected.localScale.z);
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x + scaleStep / 2, selected.position.y, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Scale/Left _^J")]
     private static void ScaleLeft()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if (selected.localScale.x > step * 2)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Scale");
-            selected.localScale = new Vector3(selected.localScale.x - scaleStep, selected.localScale.y, selected.localScale.z);
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x - scaleStep / 2, selected.position.y, selected.position.z);
+            RoundTransform(selected);
+            if (selected.localScale.x > step * 2)
+            {
+                Undo.RecordObject(selected, "Scale");
+                selected.localScale = new Vector3(selected.localScale.x - scaleStep, selected.localScale.y, selected.localScale.z);
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x - scaleStep / 2, selected.position.y, selected.position.z);
+            }
         }
     }
 
     [MenuItem("Custom/Block Scale/Up _^I")]
     private static void ScaleUp()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if (((selected.position.y + (selected.localScale.y / 2)) + scaleStep <= upBoundary))
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Scale");
-            selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y + scaleStep, selected.localScale.z);
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x, selected.position.y + scaleStep / 2, selected.position.z);
+            RoundTransform(selected);
+            if (((selected.position.y + (selected.localScale.y / 2)) + scaleStep <= upBoundary))
+            {
+                Undo.RecordObject(selected, "Scale");
+                selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y + scaleStep, selected.localScale.z);
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x, selected.position.y + scaleStep / 2, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Scale/Down _^K")]
     private static void ScaleDown()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if (selected.localScale.y > step * 2)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Scale");
-            selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y - scaleStep, selected.localScale.z);
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x, selected.position.y - scaleStep / 2, selected.position.z);
+            RoundTransform(selected);
+            if (selected.localScale.y > step * 2)
+            {
+                Undo.RecordObject(selected, "Scale");
+                selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y - scaleStep, selected.localScale.z);
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x, selected.position.y - scaleStep / 2, selected.position.z);
+            }
         }
     }
     [MenuItem("Custom/Block Scale/Forward _^#I")]
     private static void ScaleForward()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        Undo.RecordObject(selected, "Scale");
-        selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y, selected.localScale.z + scaleStep);
-        Undo.RecordObject(selected, "Movement");
-        selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z + scaleStep / 2);
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
+        {
+            RoundTransform(selected);
+            Undo.RecordObject(selected, "Scale");
+            selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y, selected.localScale.z + scaleStep);
+            Undo.RecordObject(selected, "Movement");
+            selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z + scaleStep / 2);
+        }
     }
     [MenuItem("Custom/Block Scale/Backward _^#K")]
     private static void ScaleBackward()
     {
-        Transform selected = Selection.activeGameObject.transform;
-        RoundTransform(selected);
-        if (selected.localScale.z > step * 2)
+        foreach (Transform selected in Selection.gameObjects.Select(x => x.transform))
         {
-            Undo.RecordObject(selected, "Scale");
-            selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y, selected.localScale.z - scaleStep);
-            Undo.RecordObject(selected, "Movement");
-            selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z - scaleStep / 2);
+            RoundTransform(selected);
+            if (selected.localScale.z > step * 2)
+            {
+                Undo.RecordObject(selected, "Scale");
+                selected.localScale = new Vector3(selected.localScale.x, selected.localScale.y, selected.localScale.z - scaleStep);
+                Undo.RecordObject(selected, "Movement");
+                selected.position = new Vector3(selected.position.x, selected.position.y, selected.position.z - scaleStep / 2);
+            }
         }
     }
 
