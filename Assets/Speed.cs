@@ -19,6 +19,10 @@ public class Speed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = rb.velocity.ToString();
+        text.text = "Velocity: ";
+        text.text += rb.velocity.ToString();
+
+        text.text += "\nFPS: ";
+        text.text += Mathf.Round(1/Time.deltaTime).ToString();
     }
 }
