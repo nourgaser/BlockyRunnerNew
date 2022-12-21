@@ -8,7 +8,7 @@ public class FollowPlayer : MonoBehaviour
 
     private Vector3 offset;
 
-    private void Start() {
+    private void Awake() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         offset = transform.position - playerTransform.transform.position;
     }

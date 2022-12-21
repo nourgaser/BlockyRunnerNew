@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Controller : MonoBehaviour
 {
@@ -9,23 +10,15 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float sideForce;
     [SerializeField]
-    private float baseBounceForce = 1;
-
-    [SerializeField]
     private float jumpForce;
 
-    private bool inAir;
+    public bool inAir;
     private bool moveLeft;
     private bool moveRight;
     private bool shouldJump;
 
-    [SerializeField]
-    private float boostTargetSpeed;
-
-    [SerializeField]
-    private float slowTargetSpeed;
-
     private float quarterOfScreen;
+
 
     private void Start()
     {
@@ -50,7 +43,7 @@ public class Controller : MonoBehaviour
             inAir = true;
         }
     }
-    // Update is called once per frame
+    
     void Update()
     {
 
@@ -104,38 +97,4 @@ public class Controller : MonoBehaviour
             shouldJump = true;
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        switch (collision.gameObject.tag)
-        {
-            case "Floor":
-                inAir = false;
-                rb.constraints = RigidbodyConstraints.FreezePositionY;
-                break;
-            case "Bouncy":
-                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.15f, baseBounceForce), ForceMode.Impulse);
-                break;
-            case "Boost":
-                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = boostTargetSpeed;
-                break;
-            case "Slow":
-                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = slowTargetSpeed;
-                break;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        switch (collision.gameObject.tag)
-        {
-            case "Boost":
-            case "Slow":
-                GameManager gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-                gm.speedLimit = gm.speedLimitDefault;
-                break;
-        }
-    }
-
 }

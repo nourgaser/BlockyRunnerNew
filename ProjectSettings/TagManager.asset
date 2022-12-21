@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Boost
   - Slow
+  - Chunk
   layers:
   - Default
   - TransparentFX
