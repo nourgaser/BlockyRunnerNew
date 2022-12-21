@@ -24,14 +24,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private short currentChapter = 1;
-    
+
     [SerializeField]
     private short currentLevel = 2;
-    
+
     [SerializeField]
     private short startChunk = 1;
 
-    
+
     private short chunkCounter = 0;
     private short nextChunkId;
 
@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currChunk = GameObject.Instantiate(Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        nextChunk = GameObject.Instantiate(Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}"), new Vector3(0, 0, currChunk.transform.position.z + 50), Quaternion.identity) as GameObject;
+        currChunk = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), Quaternion.identity);
+        nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}"), new Vector3(0, 0, currChunk.transform.position.z + 50), Quaternion.identity);
 
         nextChunkId++;
         chunkCounter += 2; //spawned two empty chunks for the player to get oriented.
@@ -87,20 +87,30 @@ public class GameManager : MonoBehaviour
         GameObject.Destroy(currChunk);
         currChunk = nextChunk;
 
-        var resource = Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}");
-        if (resource != null)
+        if (!AttemptSwap())
         {
-            nextChunk = GameObject.Instantiate(Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity) as GameObject;
-        }
-        else
-        {
-            Debug.Log($"Asset at Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId} doesn't exist.");
-            Debug.Log("Spawning empty chunk instead.");
-            nextChunk = GameObject.Instantiate(Resources.Load($"Prefabs/Chunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity) as GameObject;
+            Debug.Log("Spawning empty chunk...");
+            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
         }
 
         chunkCounter++;
-        nextChunkId++;
+    }
+
+    bool AttemptSwap()
+    {
+        string path = $"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}";
+        GameObject chunk = (GameObject)Resources.Load(path);
+        if (chunk != null)
+        {
+            nextChunk = GameObject.Instantiate(chunk, new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+            nextChunkId++;
+        }
+        else
+        {
+            Debug.Log($"Asset at {path} doesn't exist.");
+            return false;
+        }
+        return true;
     }
 
     void onCollisionWithOsbtacle()
