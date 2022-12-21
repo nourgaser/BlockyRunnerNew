@@ -45,6 +45,7 @@ public class PlayerCollisionHandler : MonoBehaviour
                 break;
             case "Obstacle":
                 if (collidedWithObstacle != null) collidedWithObstacle.Invoke();
+                Debug.Log($"Died at chunk {collision.gameObject.transform.parent.name}");
                 break;
         }
     }
