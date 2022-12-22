@@ -19,6 +19,9 @@ public class PlayerCollisionHandler : MonoBehaviour
     private Rigidbody rb;
     private Controller controller;
 
+    [SerializeField]
+    private float obstacleCollisionTolerance = 1f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,8 +47,7 @@ public class PlayerCollisionHandler : MonoBehaviour
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = slowTargetSpeed;
                 break;
             case "Obstacle":
-                if (collidedWithObstacle != null) collidedWithObstacle.Invoke();
-                Debug.Log($"Died at chunk {collision.gameObject.transform.parent.name}");
+                if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance) collidedWithObstacle.Invoke();
                 break;
         }
     }
