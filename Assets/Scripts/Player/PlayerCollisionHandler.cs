@@ -49,7 +49,7 @@ public class PlayerCollisionHandler : MonoBehaviour
             case "Obstacle":
                 if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance)
                 {
-                    Debug.Log($"Died at chunk {collision.transform.parent.name}");
+                    Debug.Log($"Died at chunk {collision.transform.parent.name} at block {collision.transform.name}");
                     collidedWithObstacle.Invoke();
                 }
                 break;
