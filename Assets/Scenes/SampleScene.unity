@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0, g: 0, b: 0, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -859,8 +859,8 @@ MonoBehaviour:
   forwardForce: 5000
   sideSpeedLimit: 30
   currentChapter: 1
-  currentLevel: 2
-  startChunk: 1
+  currentLevel: 3
+  startChunk: 4
 --- !u!4 &320167070
 Transform:
   m_ObjectHideFlags: 0
@@ -3861,6 +3861,7 @@ MonoBehaviour:
   baseBounceForce: 1
   boostTargetSpeed: 0
   slowTargetSpeed: 0
+  obstacleCollisionTolerance: 1
 --- !u!1001 &1458196033
 PrefabInstance:
   m_ObjectHideFlags: 0
