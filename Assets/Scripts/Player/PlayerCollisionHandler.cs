@@ -47,7 +47,11 @@ public class PlayerCollisionHandler : MonoBehaviour
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = slowTargetSpeed;
                 break;
             case "Obstacle":
-                if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance) collidedWithObstacle.Invoke();
+                if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance)
+                {
+                    Debug.Log($"Died at chunk {collision.transform.parent.name}");
+                    collidedWithObstacle.Invoke();
+                }
                 break;
         }
     }
