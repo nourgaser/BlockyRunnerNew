@@ -860,7 +860,7 @@ MonoBehaviour:
   sideSpeedLimit: 30
   currentChapter: 1
   currentLevel: 3
-  startChunk: 4
+  startChunk: 3
 --- !u!4 &320167070
 Transform:
   m_ObjectHideFlags: 0
@@ -3858,7 +3858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b204fe4a76b6bd1db8146564d978cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseBounceForce: 1
+  baseBounceForce: 8.5
   boostTargetSpeed: 0
   slowTargetSpeed: 0
   obstacleCollisionTolerance: 1
