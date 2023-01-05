@@ -38,7 +38,8 @@ public class PlayerCollisionHandler : MonoBehaviour
                 rb.constraints = RigidbodyConstraints.FreezePositionY; //lock to floor
                 break;
             case "Bouncy":
-                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.15f, baseBounceForce), ForceMode.Impulse);
+                // Debug.Log(collision.impulse.magnitude * 1.32f);
+                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.32f, baseBounceForce), ForceMode.Impulse);
                 break;
             case "Boost":
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = boostTargetSpeed;
@@ -47,6 +48,7 @@ public class PlayerCollisionHandler : MonoBehaviour
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = slowTargetSpeed;
                 break;
             case "Obstacle":
+            case "Locked":
                 if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance)
                 {
                     Debug.Log($"Died at chunk {collision.transform.parent.name} at block {collision.transform.name}");
