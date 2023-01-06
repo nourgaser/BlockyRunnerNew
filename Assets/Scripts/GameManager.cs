@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         if (!AttemptSwap())
         {
             Debug.Log("Spawning empty chunk...");
-            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/DemoChunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
         }
 
         chunkCounter++;
