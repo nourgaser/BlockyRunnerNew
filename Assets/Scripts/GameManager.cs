@@ -89,8 +89,8 @@ public class GameManager : MonoBehaviour
 
         if (!AttemptSwap())
         {
-            Debug.Log("Spawning empty chunk...");
-            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/DemoChunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+            // Debug.Log("Spawning empty chunk...");
+            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
         }
 
         chunkCounter++;
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Asset at {path} doesn't exist.");
+            // Debug.Log($"Asset at {path} doesn't exist.");
             return false;
         }
         return true;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
 
         playerRb.gameObject.GetComponent<Controller>().enabled = false;
         alive = false;
-        Invoke("Restart", 2);
+        Invoke("Restart", 1);
     }
 
     void Restart()

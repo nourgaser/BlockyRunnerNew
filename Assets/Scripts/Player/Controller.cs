@@ -7,8 +7,12 @@ public class Controller : MonoBehaviour
 {
     private Rigidbody rb;
 
+    [HideInInspector]
+    public float sideForce;
     [SerializeField]
-    private float sideForce;
+    public float defaultSideForce = 1400f;
+    [SerializeField]
+    public float airSideForce;
     [SerializeField]
     private float jumpForce;
 
@@ -24,6 +28,8 @@ public class Controller : MonoBehaviour
     {
         quarterOfScreen = Screen.width / 4;
         rb = GetComponent<Rigidbody>();
+
+        sideForce = defaultSideForce;
     }
 
     private void FixedUpdate()
@@ -41,6 +47,7 @@ public class Controller : MonoBehaviour
             rb.AddForce(0, jumpForce, 0, ForceMode.Impulse);
             shouldJump = false;
             inAir = true;
+            sideForce = airSideForce;
         }
     }
     

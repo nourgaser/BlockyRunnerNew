@@ -10,6 +10,13 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     [SerializeField]
     private float baseBounceForce = 1;
+
+    [SerializeField]
+    private float bounceMultiplier = 1.35f;
+
+    [SerializeField]
+    private float bounceFlatMultiplier = 3f;
+
     [SerializeField]
     private float boostTargetSpeed;
 
@@ -34,12 +41,16 @@ public class PlayerCollisionHandler : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Floor":
-                controller.inAir = false;
-                rb.constraints = RigidbodyConstraints.FreezePositionY; //lock to floor
+                if (controller.inAir)
+                {
+                    controller.inAir = false;
+                    controller.sideForce = controller.defaultSideForce;
+                    rb.constraints = RigidbodyConstraints.FreezePositionY; //lock to floor
+                }
                 break;
             case "Bouncy":
-                // Debug.Log(collision.impulse.magnitude * 1.32f);
-                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * 1.32f, baseBounceForce), ForceMode.Impulse);
+                // Debug.Log(collision.impulse.magnitude);
+                rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * bounceMultiplier + 3f, baseBounceForce), ForceMode.Impulse);
                 break;
             case "Boost":
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().speedLimit = boostTargetSpeed;
@@ -52,7 +63,7 @@ public class PlayerCollisionHandler : MonoBehaviour
                 if (collidedWithObstacle != null && collision.impulse.magnitude > obstacleCollisionTolerance)
                 {
                     Debug.Log($"Died at chunk {collision.transform.parent.name} at block {collision.transform.name}");
-                    // collidedWithObstacle.Invoke();
+                    collidedWithObstacle.Invoke();
                 }
                 break;
         }
