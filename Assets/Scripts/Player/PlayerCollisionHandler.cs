@@ -29,27 +29,36 @@ public class PlayerCollisionHandler : MonoBehaviour
     [SerializeField]
     private float obstacleCollisionTolerance = 1f;
 
+    private GameObject bottomContact = null;
+
+    public UnityAction wentInAir;
+    public UnityAction wentOnGround;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<Controller>();
     }
 
+    private void Update()
+    {
+        justEntered = null;
+    }
+
+    Collision justEntered;
     private void OnCollisionEnter(Collision collision)
     {
+        justEntered = collision;
+
+        if (collision.GetContact(0).normal == new Vector3(0, 1, 0))
+        {
+            if (bottomContact == null) wentOnGround.Invoke();
+            bottomContact = collision.gameObject;
+        }
 
         switch (collision.gameObject.tag)
         {
-            case "Floor":
-                if (controller.inAir)
-                {
-                    controller.inAir = false;
-                    controller.sideForce = controller.defaultSideForce;
-                    rb.constraints = RigidbodyConstraints.FreezePositionY; //lock to floor
-                }
-                break;
             case "Bouncy":
-                // Debug.Log(collision.impulse.magnitude);
                 rb.AddForce(collision.GetContact(0).normal * Mathf.Max(collision.impulse.magnitude * bounceMultiplier + 3f, baseBounceForce), ForceMode.Impulse);
                 break;
             case "Boost":
@@ -71,14 +80,22 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        switch (collision.gameObject.tag)
+        if (justEntered?.gameObject.tag == "Untagged" || justEntered?.gameObject.tag == "Floor" || justEntered == null)
         {
-            case "Boost":
-            case "Slow":
-                GameManager gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-                gm.speedLimit = gm.speedLimitDefault;
-                break;
+            if (collision.gameObject == bottomContact)
+            {
+                bottomContact = null;
+                wentInAir.Invoke();
+            }
+
+            switch (collision.gameObject.tag)
+            {
+                case "Boost":
+                case "Slow":
+                    GameManager gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+                    gm.speedLimit = gm.speedLimitDefault;
+                    break;
+            }
         }
     }
-
 }

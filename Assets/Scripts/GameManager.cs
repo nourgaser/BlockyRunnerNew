@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{
+{   
+    [SerializeField]
+    string DemoChunkPath = "Prefabs/Chapters/1/1/10";
 
     private bool alive = true;
 
@@ -52,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currChunk = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), Quaternion.identity);
+        currChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, 0), Quaternion.identity);
         nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}"), new Vector3(0, 0, currChunk.transform.position.z + 50), Quaternion.identity);
 
         nextChunkId++;
@@ -90,7 +92,7 @@ public class GameManager : MonoBehaviour
         if (!AttemptSwap())
         {
             // Debug.Log("Spawning empty chunk...");
-            nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chunk"), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+            nextChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
         }
 
         chunkCounter++;

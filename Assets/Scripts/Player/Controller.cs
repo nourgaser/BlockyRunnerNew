@@ -7,53 +7,60 @@ public class Controller : MonoBehaviour
 {
     private Rigidbody rb;
 
-    [HideInInspector]
-    public float sideForce;
     [SerializeField]
-    public float defaultSideForce = 1400f;
+    private float groundSideForce;
     [SerializeField]
-    public float airSideForce;
+    private float airSideForce;
+
+    private float currentSideForce;
+
     [SerializeField]
     private float jumpForce;
 
-    public bool inAir;
     private bool moveLeft;
     private bool moveRight;
     private bool shouldJump;
 
     private float quarterOfScreen;
 
+    private PlayerCollisionHandler collisionHandler;
+
+    private bool inAir = false;
 
     private void Start()
     {
-        quarterOfScreen = Screen.width / 4;
+
         rb = GetComponent<Rigidbody>();
 
-        sideForce = defaultSideForce;
+        collisionHandler = GetComponent<PlayerCollisionHandler>();
+
+        quarterOfScreen = Screen.width / 4;
+
+        collisionHandler.wentInAir += () => { currentSideForce = airSideForce; inAir = true; };
+        collisionHandler.wentOnGround += () => { currentSideForce = groundSideForce; inAir = false; };
+        currentSideForce = groundSideForce;
     }
 
     private void FixedUpdate()
     {
         if (moveLeft)
         {
-            rb.AddForce(-sideForce * Time.fixedDeltaTime, 0, 0);
+            rb.AddForce(-currentSideForce * Time.fixedDeltaTime, 0, 0);
         }
         if (moveRight)
         {
-            rb.AddForce(sideForce * Time.fixedDeltaTime, 0, 0);
+            rb.AddForce(currentSideForce * Time.fixedDeltaTime, 0, 0);
         }
-        if (shouldJump)
+        if (shouldJump && !inAir)
         {
             rb.AddForce(0, jumpForce, 0, ForceMode.Impulse);
             shouldJump = false;
             inAir = true;
-            sideForce = airSideForce;
         }
     }
-    
-    void Update()
-    {
 
+    void Update()
+    {   
         bool left = false, right = false, jump = false;
 
         // TOUCH
@@ -70,7 +77,7 @@ public class Controller : MonoBehaviour
                 {
                     left = true;
                 }
-                if (!inAir && (touch.position.x > quarterOfScreen && touch.position.x < (3 * quarterOfScreen))) jump = true;
+                if ((touch.position.x > quarterOfScreen && touch.position.x < (3 * quarterOfScreen))) jump = true;
             }
         }
 
@@ -86,7 +93,7 @@ public class Controller : MonoBehaviour
         {
             right = true;
         }
-        if (!inAir && (Input.GetKeyDown(KeyCode.Space)))
+        if ((Input.GetKeyDown(KeyCode.Space)))
         {
             jump = true;
         }
@@ -98,10 +105,7 @@ public class Controller : MonoBehaviour
         if (left) moveLeft = true;
         else moveLeft = false;
 
-        if (jump)
-        {
-            rb.constraints = RigidbodyConstraints.None;
-            shouldJump = true;
-        }
+        if (jump) shouldJump = true;
+        else shouldJump = false;
     }
 }
