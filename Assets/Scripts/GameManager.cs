@@ -31,11 +31,10 @@ public class GameManager : MonoBehaviour
     private short currentLevel = 2;
 
     [SerializeField]
-    private short startChunk = 1;
+    private short nextChunkId = 1;
 
 
     private short chunkCounter = 0;
-    private short nextChunkId;
 
 
     private void Awake()
@@ -49,16 +48,33 @@ public class GameManager : MonoBehaviour
 
         playerRb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         speedLimit = speedLimitDefault;
-        nextChunkId = startChunk;
+    }
+
+    void SpawnChunk()
+    {
+        if (!AttemptSwap())
+        {
+            nextChunkId = 1;
+            currentLevel++;
+            if (!AttemptSwap())
+            {
+                currentLevel = 1;
+                currentChapter++;
+
+                if (!AttemptSwap())
+                {
+                    nextChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+                }
+            }
+        }
+
+        chunkCounter++;
     }
 
     private void Start()
     {
-        currChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, 0), Quaternion.identity);
-        nextChunk = GameObject.Instantiate((GameObject)Resources.Load($"Prefabs/Chapters/{currentChapter}/{currentLevel}/{nextChunkId}"), new Vector3(0, 0, currChunk.transform.position.z + 50), Quaternion.identity);
-
-        nextChunkId++;
-        chunkCounter += 2; //spawned two empty chunks for the player to get oriented.
+        SwapChunks();
+        SwapChunks();
 
         PlayerCollisionHandler.collidedWithObstacle += onCollisionWithOsbtacle;
     }
@@ -89,23 +105,7 @@ public class GameManager : MonoBehaviour
         GameObject.Destroy(currChunk);
         currChunk = nextChunk;
 
-        if (!AttemptSwap())
-        {
-            nextChunkId = 1;
-            currentLevel++;
-            if (!AttemptSwap())
-            {
-                currentLevel = 1;
-                currentChapter++;
-
-                if (!AttemptSwap())
-                {
-                    nextChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
-                }
-            }
-        }
-
-        chunkCounter++;
+        SpawnChunk();
     }
 
     bool AttemptSwap()
