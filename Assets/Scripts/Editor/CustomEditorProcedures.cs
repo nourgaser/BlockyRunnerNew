@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -23,6 +24,23 @@ public class CustomEditorProcedures
             Undo.SetTransformParent(block.transform, parent.transform, "Changing parent");
         }
     }
+
+    static string _saveChunksAsLevelPath = "Assets/Resources/Prefabs/Chapters/2/1/";
+
+    [MenuItem("Custom/Save Chunks as Level _F2")]
+    private static void SaveChunksAsLevel() {
+        var chunks = SceneView.FindObjectsOfType<GameObject>().Where(obj => obj.tag == "Chunk");
+        foreach (var chunk in chunks)
+        {
+
+            string localPath = _saveChunksAsLevelPath + chunk.name + ".prefab";
+
+            PrefabUtility.SaveAsPrefabAsset(chunk, localPath);
+
+            Debug.Log("Saved chunks to " + _saveChunksAsLevelPath);
+        }
+    }
+
 
     [MenuItem("Custom/Block Movement/Left _^LEFT")]
     private static void Left()
