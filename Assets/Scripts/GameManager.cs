@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (playerRb.position.z > nextChunk.transform.position.z + 2) SwapChunks();
+        if (playerRb.position.z > nextChunk.transform.position.z) SwapChunks();
     }
     private void FixedUpdate()
     {
