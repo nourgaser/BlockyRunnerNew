@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{   
+{
     [SerializeField]
     string DemoChunkPath = "Prefabs/Chapters/1/1/10";
 
@@ -91,8 +91,18 @@ public class GameManager : MonoBehaviour
 
         if (!AttemptSwap())
         {
-            // Debug.Log("Spawning empty chunk...");
-            nextChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+            nextChunkId = 1;
+            currentLevel++;
+            if (!AttemptSwap())
+            {
+                currentLevel = 1;
+                currentChapter++;
+
+                if (!AttemptSwap())
+                {
+                    nextChunk = GameObject.Instantiate((GameObject)Resources.Load(DemoChunkPath), new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
+                }
+            }
         }
 
         chunkCounter++;
@@ -107,11 +117,7 @@ public class GameManager : MonoBehaviour
             nextChunk = GameObject.Instantiate(chunk, new Vector3(0, 0, chunkCounter * 50), Quaternion.identity);
             nextChunkId++;
         }
-        else
-        {
-            // Debug.Log($"Asset at {path} doesn't exist.");
-            return false;
-        }
+        else return false;
         return true;
     }
 
