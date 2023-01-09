@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class GameManager : MonoBehaviour
     private float forwardForce;
     public float sideSpeedLimit;
 
-    private GameObject currChunk;
     private GameObject nextChunk;
 
 
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     private short chunkCounter = 0;
 
+
+    public UnityAction passedChunk;
 
     private void Awake()
     {
@@ -73,8 +75,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SwapChunks();
-        SwapChunks();
+        SpawnChunk();
+        nextChunk.AddComponent<DestroyPassedChunk>();
+        SpawnChunk();
 
         PlayerCollisionHandler.collidedWithObstacle += onCollisionWithOsbtacle;
     }
@@ -102,8 +105,10 @@ public class GameManager : MonoBehaviour
 
     void SwapChunks()
     {
-        GameObject.Destroy(currChunk);
-        currChunk = nextChunk;
+        if (passedChunk != null)
+            passedChunk.Invoke();
+
+        nextChunk.AddComponent<DestroyPassedChunk>();
 
         SpawnChunk();
     }
