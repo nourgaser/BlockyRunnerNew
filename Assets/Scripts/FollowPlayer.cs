@@ -17,5 +17,7 @@ public class FollowPlayer : MonoBehaviour
     void Update()
     {
         transform.position = offset + playerTransform.position;
+
+        if (transform.position.y > 19.5f) transform.position = new Vector3(transform.position.x, 19.5f, transform.position.z);
     }
 }
