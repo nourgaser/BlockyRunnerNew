@@ -108,8 +108,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7562373998035134372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0771dcf4893d64fb593c32ae221b0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b7bd9ce841bc92439ea9cd65f928792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockedBlock: {fileID: 0}
-  unlockedMaterial: {fileID: 2100000, guid: 3204991edf962c6429555cacc982f051, type: 2}
+  relatedObject: {fileID: 0}
+  unlockedMaterial: {fileID: 0}
+  effect: 1

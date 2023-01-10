@@ -12,18 +12,13 @@ public class Button : MonoBehaviour
 
     enum Effect
     {
-        UNLOCK,
-        DESTROY
+        Unlock,
+        Destroy,
+        Spawn
     }
 
     [SerializeField]
-    private Effect effect = Effect.DESTROY;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    private Effect effect = Effect.Destroy;
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -31,11 +26,14 @@ public class Button : MonoBehaviour
 
         switch (effect)
         {
-            case Effect.UNLOCK:
+            case Effect.Unlock:
                 Unlock();
                 break;
-            case Effect.DESTROY:
+            case Effect.Destroy:
                 Destroy();
+                break;
+            case Effect.Spawn:
+                Spawn();
                 break;
         }
 
@@ -57,5 +55,9 @@ public class Button : MonoBehaviour
     private void Destroy()
     {
         GameObject.Destroy(relatedObject);
+    }
+
+    private void Spawn() {
+        relatedObject.SetActive(true);
     }
 }
