@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relatedObject: {fileID: 1945402088593119053}
   unlockedMaterial: {fileID: 2100000, guid: 3204991edf962c6429555cacc982f051, type: 2}
-  effect: 0
+  effect: 1
 --- !u!1 &5210512422634339316
 GameObject:
   m_ObjectHideFlags: 0

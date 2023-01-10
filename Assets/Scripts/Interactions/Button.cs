@@ -22,19 +22,22 @@ public class Button : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        GetComponent<MeshCollider>().isTrigger = false;
-
-        switch (effect)
+        if (collision.gameObject.tag == "Player")
         {
-            case Effect.Unlock:
-                Unlock();
-                break;
-            case Effect.Destroy:
-                Destroy();
-                break;
-            case Effect.Spawn:
-                Spawn();
-                break;
+            gameObject.SetActive(false);
+
+            switch (effect)
+            {
+                case Effect.Unlock:
+                    Unlock();
+                    break;
+                case Effect.Destroy:
+                    Destroy();
+                    break;
+                case Effect.Spawn:
+                    Spawn();
+                    break;
+            }
         }
 
     }
@@ -57,7 +60,8 @@ public class Button : MonoBehaviour
         GameObject.Destroy(relatedObject);
     }
 
-    private void Spawn() {
+    private void Spawn()
+    {
         relatedObject.SetActive(true);
     }
 }

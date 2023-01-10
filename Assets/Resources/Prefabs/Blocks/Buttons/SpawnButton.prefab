@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5735022934129658624}
   - component: {fileID: 5735022934129658652}
   - component: {fileID: 5735022934129658655}
-  - component: {fileID: 5735022934129658654}
   - component: {fileID: 156051775468249411}
+  - component: {fileID: 8964632893430712007}
   m_Layer: 0
   m_Name: SpawnButton
   m_TagString: Bouncy
@@ -27,10 +27,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5735022934129658627}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.5, y: 1.5, z: 19}
-  m_LocalScale: {x: 6, y: 0.001, z: 6}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 6, y: 0, z: 6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5735022934129658654
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5735022934129658627}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &156051775468249411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,3 +100,16 @@ MonoBehaviour:
   relatedObject: {fileID: 0}
   unlockedMaterial: {fileID: 0}
   effect: 2
+--- !u!65 &8964632893430712007
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5735022934129658627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
