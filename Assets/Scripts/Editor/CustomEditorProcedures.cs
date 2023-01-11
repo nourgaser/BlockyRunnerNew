@@ -25,7 +25,7 @@ public class CustomEditorProcedures
         }
     }
 
-    static string _saveChunksAsLevelPath = "Assets/Resources/Prefabs/Chapters/2/1/";
+    static string _saveChunksAsLevelPath = "Assets/Resources/Prefabs/Chapters/2/2/";
 
     [MenuItem("Custom/Save Chunks as Level _F2")]
     private static void SaveChunksAsLevel() {
