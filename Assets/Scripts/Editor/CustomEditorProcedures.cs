@@ -25,10 +25,11 @@ public class CustomEditorProcedures
         }
     }
 
-    static string _saveChunksAsLevelPath = "Assets/Resources/Prefabs/Chapters/2/2/";
+    static string _saveChunksAsLevelPath = "Assets/Resources/Prefabs/Chapters/3/1/";
 
     [MenuItem("Custom/Save Chunks as Level _F2")]
-    private static void SaveChunksAsLevel() {
+    private static void SaveChunksAsLevel()
+    {
         var chunks = SceneView.FindObjectsOfType<GameObject>().Where(obj => obj.tag == "Chunk");
         foreach (var chunk in chunks)
         {
@@ -37,8 +38,8 @@ public class CustomEditorProcedures
 
             PrefabUtility.SaveAsPrefabAsset(chunk, localPath);
 
-            Debug.Log("Saved chunks to " + _saveChunksAsLevelPath);
         }
+        Debug.Log("Saved chunks to " + _saveChunksAsLevelPath);
     }
 
 
