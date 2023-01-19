@@ -41,6 +41,9 @@ public class SliceAndCombine : EditorWindow
             return;
         }
 
+        GameObject[] newSelection = new GameObject[selected.Length *2];
+        int added = 0;
+
         foreach (var obj in selected)
         {
             var prefab = Instantiate(obj);
@@ -80,9 +83,16 @@ public class SliceAndCombine : EditorWindow
                 copyA.transform.position -= new Vector3(0, 0, obj.transform.localScale.z / 4);
                 copyB.transform.position += new Vector3(0, 0, obj.transform.localScale.z / 4);
             }
+
             Undo.DestroyObjectImmediate(obj);
             GameObject.DestroyImmediate(prefab);
+            
+            newSelection[added] = copyA;
+            newSelection[added+1] = copyB;
+            added+=2;
         }
+
+        Selection.objects = newSelection;
     }
 
     [MenuItem("Custom/Combine _F5")]
