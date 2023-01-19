@@ -2,14 +2,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-public class SpreadWindow : EditorWindow
+public class Spread : EditorWindow
 {
-    // Add menu named "My Window" to the Window menu
     [MenuItem("Window/Spread")]
     static void Init()
     {
         // Get existing open window or if none, make a new one:
-        SpreadWindow window = (SpreadWindow)EditorWindow.GetWindow(typeof(SpreadWindow));
+        Spread window = (Spread)EditorWindow.GetWindow(typeof(Spread));
         window.Show();
     }
 
@@ -61,12 +60,12 @@ public class SpreadWindow : EditorWindow
         if (GUILayout.Button("Spread"))
         {
             spreading = true;
-            Spread();
+            _Spread();
         }
     }
 
     [MenuItem("Custom/Spread _F3")]
-    public static void Spread()
+    public static void _Spread()
     {
         if (Selection.gameObjects.Length == 0) { Debug.Log("Nothing selected. Cannot spread."); return; }
         if (!((spreadInclude[0]) || (spreadInclude[1]) || (spreadInclude[2]))) { Debug.Log("At least one direction should be included. Cannot spread."); return; }
