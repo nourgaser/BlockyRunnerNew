@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingBlock : MonoBehaviour
@@ -23,7 +21,7 @@ public class MovingBlock : MonoBehaviour
             return;
         }
 
-        orgPos = transform.position;
+        orgPos = transform.localPosition;
         anim = gameObject.AddComponent<Animation>();
         anim.wrapMode = WrapMode.PingPong;
     }
