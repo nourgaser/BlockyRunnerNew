@@ -60,7 +60,7 @@ public class Controller : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
         bool left = false, right = false, jump = false;
 
         // TOUCH
@@ -93,7 +93,7 @@ public class Controller : MonoBehaviour
         {
             right = true;
         }
-        if ((Input.GetKeyDown(KeyCode.Space)))
+        if ((Input.GetKey(KeyCode.Space)))
         {
             jump = true;
         }
@@ -105,7 +105,6 @@ public class Controller : MonoBehaviour
         if (left) moveLeft = true;
         else moveLeft = false;
 
-        if (jump) shouldJump = true;
-        else shouldJump = false;
+        if (jump && !inAir) shouldJump = true;
     }
 }
